@@ -1,0 +1,54 @@
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 0.5rem;
+  &-item {
+    border: 1px solid #20e3b2;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    span {
+      width: 100%;
+      text-align: right;
+      padding: 4px 8px;
+    }
+    div {
+      padding: 0px 16px;
+    }
+    a {
+      text-align: center;
+      background-color: #ff6651;
+      padding: 4px 8px;
+      color: #fff;
+      font-weight: 300;
+    }
+  }
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0 0.5rem;
+  user-select: none;
+  font-size: 0.75rem;
+  margin: 8px 0;
+  &-item {
+    border: 1px solid #eee;
+    border-radius: 0.25rem;
+    padding: 0.05rem 0.05rem;
+    cursor: pointer;
+    a,
+    button {
+      line-height: 1;
+      padding: 0.1rem 0.4rem;
+      &:disabled {
+        color: #eee;
+      }
+    }
+  }
+  .active {
+    background-color: #ff6651;
+    color: #fff;
+  }
+}
