@@ -77,7 +77,8 @@ import { ListStore } from "./list.store";
             <div>
               <img
                 error="https://mir-s3-cdn-cf.behance.net/project_modules/disp/13ff4e19399069.562d9bb4f1a42.png"
-                [src]="pokemon.image"
+                src="https://s2.coinmarketcap.com/static/img/coins/200x200/8303.png"
+                [srcset]="pokemon.image"
                 alt="poke-image"
               />
             </div>

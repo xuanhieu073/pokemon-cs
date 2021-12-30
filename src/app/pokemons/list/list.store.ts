@@ -41,7 +41,7 @@ export class ListStore extends ComponentStore<ListState> {
       query: "",
     });
     this.fetchEffect(this.paniator$);
-    this.logEffect(this.vm$);
+    // this.logEffect(this.vm$);
   }
 
   setPagination = this.updater<{ page: number; limit: number; offset: number }>(
