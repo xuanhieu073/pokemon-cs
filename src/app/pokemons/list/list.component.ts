@@ -58,6 +58,7 @@ import { ListStore } from "./list.store";
         <input
           class="outline-none w-full text-sm font-normal"
           type="text"
+          placeholder="search pokemon name"
           [formControl]="query"
         />
       </div>

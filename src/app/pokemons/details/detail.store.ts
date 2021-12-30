@@ -4,11 +4,20 @@ import { ComponentStore } from "@ngrx/component-store";
 import { map, pluck, switchMap, tap, withLatestFrom } from "rxjs";
 import { SimplifiedPokemon } from "src/app/models/pokemon";
 import { BackendService } from "src/app/services/backend.service";
+import { AuthStore } from "src/app/store/auth.store";
+
+export enum colors {
+  water = "blue",
+  fire = "red",
+  grass = "green",
+  default = "orange",
+}
 
 export interface DetailsState {
   isLoading: boolean;
   id: string;
   pokemon: SimplifiedPokemon;
+  color: colors;
 }
 
 @Injectable()
@@ -19,9 +28,10 @@ export class DetailsStore extends ComponentStore<DetailsState> {
   constructor(
     private route: ActivatedRoute,
     private backend: BackendService,
-    private router: Router
+    private router: Router,
+    private auth: AuthStore
   ) {
-    super({ isLoading: false, id: "0", pokemon: null });
+    super({ isLoading: false, id: "0", pokemon: null, color: colors.default });
     this.fetchPokemonEffect(this.route.params.pipe(pluck("id")));
   }
 
@@ -32,7 +42,21 @@ export class DetailsStore extends ComponentStore<DetailsState> {
       }),
       switchMap((id) => this.backend.getPokemonDetail(id)),
       tap((pokemon) => {
-        this.patchState({ isLoading: false, pokemon });
+        let color = colors.default;
+        switch (pokemon.type) {
+          case "water":
+            color = colors.water;
+            break;
+          case "fire":
+            color = colors.fire;
+            break;
+          case "grass":
+            color = colors.grass;
+            break;
+          default:
+            color: colors.default;
+        }
+        this.patchState({ isLoading: false, pokemon, color });
       })
     )
   );
@@ -58,4 +82,7 @@ export class DetailsStore extends ComponentStore<DetailsState> {
       })
     )
   );
+
+  like = this.auth.like;
+  disLike = this.auth.disLike;
 }

@@ -55,4 +55,14 @@ export class AuthStore extends ComponentStore<AuthState> {
       })
     )
   );
+
+  like = this.updater((state) => ({
+    ...state,
+    user: { ...state.user, likes: state.user.likes + 1 },
+  }));
+
+  disLike = this.updater((state) => ({
+    ...state,
+    user: { ...state.user, dislikes: state.user.dislikes + 1 },
+  }));
 }

@@ -81,7 +81,11 @@ export class ListStore extends ComponentStore<ListState> {
                   const oldPoke = s.pokemons.find(
                     (poke) => poke.id == pokemon.id
                   );
+                  const oldOrgPoke = s.orgPokemons.find(
+                    (poke) => poke.id == pokemon.id
+                  );
                   oldPoke.image = pokeDetails.image;
+                  oldOrgPoke.image = pokeDetails.image;
                   return s;
                 });
               })
