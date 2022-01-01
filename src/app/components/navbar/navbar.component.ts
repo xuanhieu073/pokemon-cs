@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { take, tap } from "rxjs";
+import { AppContextService } from "src/app/services/app-context.service";
 import { AuthStore } from "src/app/store/auth.store";
 
 @Component({
@@ -7,7 +10,33 @@ import { AuthStore } from "src/app/store/auth.store";
     <div
       class="flex items-center justify-between bg-gray-200 dark:bg-slate-700 px-4 py-2 dark:text-gray-200"
     >
-      <h2>Pokemon angular</h2>
+      <!-- <h2>Pokemon angular</h2> -->
+      <label
+        for="toggle"
+        class="w-12 h-7 bg-gray-300 dark:bg-slate-800 border border-gray-400 dark:border-gray-600 rounded-full flex items-center px-[1px]"
+      >
+        <ng-container>
+          <div
+            [class.translate-x-5]="toggleDarkMode.value"
+            class="h-6 w-6 rounded-full bg-white dark:bg-slate-500 border dark:border-slate-600 transition-transform flex items-center justify-center"
+          >
+            <span
+              [class]="
+                toggleDarkMode.value
+                  ? ['ion-ios-moon', 'text-yellow-400']
+                  : ['ion-ios-sunny', 'text-yellow-600']
+              "
+              class="text-lg  ion"
+            ></span>
+          </div>
+        </ng-container>
+        <input
+          type="checkbox"
+          id="toggle"
+          [formControl]="toggleDarkMode"
+          class="hidden"
+        />
+      </label>
       <ng-container *ngIf="vm$ | async as vm">
         <ng-container *ngIf="vm.isLoggedIn; else loginBlock">
           <p>
@@ -38,7 +67,22 @@ import { AuthStore } from "src/app/store/auth.store";
 })
 export class NavbarComponent implements OnInit {
   vm$ = this.auth.vm$;
-  constructor(private auth: AuthStore) {}
+  toggleDarkMode = new FormControl();
+
+  constructor(private auth: AuthStore, private appContext: AppContextService) {
+    this.appContext.isDarkMode$
+      .pipe(take(1))
+      .subscribe((isDarkMode) => this.toggleDarkMode.patchValue(isDarkMode));
+
+    this.toggleDarkMode.valueChanges
+      .pipe(
+        tap((isToggle) => {
+          localStorage.setItem("theme", isToggle ? "dark" : "light");
+          this.appContext.setDarkMode(isToggle);
+        })
+      )
+      .subscribe(() => {});
+  }
 
   ngOnInit(): void {}
 
