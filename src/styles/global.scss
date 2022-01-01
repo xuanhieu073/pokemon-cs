@@ -15,6 +15,12 @@ body {
   }
 }
 
+@media screen and (max-width: 767.98px) {
+  .btn {
+    padding: 4px 10px;
+  }
+}
+
 .loading-block {
   height: 200px;
   display: flex;

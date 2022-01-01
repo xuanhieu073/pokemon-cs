@@ -8,12 +8,12 @@ import { AuthStore } from "src/app/store/auth.store";
   selector: "app-navbar",
   template: `
     <div
-      class="flex items-center justify-between bg-gray-200 dark:bg-slate-700 px-4 py-2 dark:text-gray-200"
+      class="flex items-center justify-between gap-2 bg-gray-200 dark:bg-slate-700 px-4 py-2 dark:text-gray-200"
     >
       <!-- <h2>Pokemon angular</h2> -->
       <label
         for="toggle"
-        class="w-12 h-7 bg-gray-300 dark:bg-slate-800 border border-gray-400 dark:border-gray-600 rounded-full flex items-center px-[1px]"
+        class="w-12 h-7 bg-gray-300 dark:bg-slate-800 border border-gray-400 dark:border-gray-600 rounded-full flex items-center px-[1px] shrink-0"
       >
         <ng-container>
           <div
@@ -39,11 +39,16 @@ import { AuthStore } from "src/app/store/auth.store";
       </label>
       <ng-container *ngIf="vm$ | async as vm">
         <ng-container *ngIf="vm.isLoggedIn; else loginBlock">
-          <p>
+          <p class="text-sm text-center">
             I'm {{ vm.user?.name }}. I like {{ vm.user?.likes }} and dislike
             {{ vm.user?.dislikes }} pokemons
           </p>
-          <button class="btn btn-primary" (click)="logout()">Logout</button>
+          <button class="btn btn-primary" (click)="logout()">
+            <span class="hidden md:inline">Logout</span>
+            <span class="md:hidden">
+              <span class="ion ion-md-log-out text-2xl"></span>
+            </span>
+          </button>
         </ng-container>
         <ng-template #loginBlock>
           <button class="btn btn-primary" (click)="login()">login</button>
