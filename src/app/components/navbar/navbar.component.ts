@@ -4,7 +4,9 @@ import { AuthStore } from "src/app/store/auth.store";
 @Component({
   selector: "app-navbar",
   template: `
-    <div class="navbar-header">
+    <div
+      class="flex items-center justify-between bg-gray-200 dark:bg-slate-700 px-4 py-2 dark:text-gray-200"
+    >
       <h2>Pokemon angular</h2>
       <ng-container *ngIf="vm$ | async as vm">
         <ng-container *ngIf="vm.isLoggedIn; else loginBlock">

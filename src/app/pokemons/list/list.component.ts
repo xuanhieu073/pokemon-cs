@@ -8,10 +8,11 @@ import { ListStore } from "./list.store";
   template: `
     <ng-container *ngIf="vm$ | async as vm">
       <ul class="pagination">
-        <li class="pagination-item">
+        <li class="rounded border dark:border-gray-700">
           <button
             [disabled]="vm.page === 1"
             (click)="setPaginator(vm.page - 2)"
+            class="px-2 py-[2px] dark:text-gray-200"
           >
             <
           </button>
@@ -20,7 +21,7 @@ import { ListStore } from "./list.store";
           *ngFor="let page of [].constructor(vm.totalPages); index as i"
         >
           <li
-            class="pagination-item"
+            class="rounded border dark:border-gray-700 p-[1px]"
             *ngIf="
               i < 1 ||
               i === vm.page - 1 ||
@@ -30,40 +31,42 @@ import { ListStore } from "./list.store";
             "
             [class.active]="i === vm.page - 1"
           >
-            <a
+            <button
               *ngIf="
                 i < 1 ||
                 i === vm.page - 1 ||
                 i === vm.totalPages / 2 ||
                 i === vm.totalPages - 1
               "
-              class="pagination-link"
               (click)="setPaginator(i)"
-              >{{ i }}</a
+              class="px-2 py-[2px] dark:text-gray-200"
             >
+              {{ i }}
+            </button>
           </li>
         </ng-container>
-        <li class="pagination-item">
+        <li class="rounded border dark:border-gray-700">
           <button
             [disabled]="vm.page === vm.totalPages"
             (click)="setPaginator(vm.page)"
+            class="px-2 py-[2px] dark:text-gray-200"
           >
             >
           </button>
         </li>
       </ul>
       <div
-        class="w-80 h-8 mx-auto border rounded-lg overflow-hidden mb-4 px-2 flex items-center"
+        class="w-80 h-8 mx-auto dark:border-gray-700 border rounded-lg overflow-hidden mb-4 px-2 flex items-center"
       >
         <input
-          class="outline-none w-full text-sm font-normal"
+          class="outline-none w-full text-sm font-normal bg-transparent dark:text-gray-200"
           type="text"
           placeholder="search pokemon name"
           [formControl]="query"
         />
       </div>
       <div class="loading-block" *ngIf="vm.isLoading; else pokemonContents">
-        <p>loading...</p>
+        <p class="text-gray-800 dark:text-gray-200">loading...</p>
       </div>
       <ng-template #pokemonContents>
         <!-- <ul class="pokemon-list" *ngIf="vm.pokemons.length">
@@ -72,17 +75,27 @@ import { ListStore } from "./list.store";
           </li>
         </ul> -->
         <ul class="pokemon-grid">
-          <li class="pokemon-grid-item" *ngFor="let pokemon of vm.pokemons">
-            <span>#{{ pokemon.id.padStart(3, "0") }}</span>
-            <div>
+          <li
+            class="border border-green-400 dark:border-green-900 rounded-lg flex flex-col overflow-hidden"
+            *ngFor="let pokemon of vm.pokemons"
+          >
+            <span class="text-right px-2 py-1 dark:text-gray-200"
+              >#{{ pokemon.id.padStart(3, "0") }}</span
+            >
+            <div class="w-full h-full flex justify-center px-2 py-1">
               <img
                 error="https://mir-s3-cdn-cf.behance.net/project_modules/disp/13ff4e19399069.562d9bb4f1a42.png"
                 src="https://s2.coinmarketcap.com/static/img/coins/200x200/8303.png"
                 [srcset]="pokemon.image"
                 alt="poke-image"
+                class="object-cover"
               />
             </div>
-            <a [routerLink]="[pokemon.id]">{{ pokemon.name }}</a>
+            <a
+              [routerLink]="[pokemon.id]"
+              class="bg-green-500 dark:bg-green-900 text-center text-white px-2 py-1"
+              >{{ pokemon.name }}</a
+            >
           </li>
         </ul>
         <!-- <code>{{ vm | json }}</code> -->

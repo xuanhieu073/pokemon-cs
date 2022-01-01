@@ -4,7 +4,7 @@ import { Component, OnInit } from "@angular/core";
   selector: "app-not-auth",
   template: `
     <div class="container">
-      <p>please login</p>
+      <p class="dark:text-gray-200">please login</p>
     </div>
   `,
   styles: [
