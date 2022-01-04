@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ComponentStore } from "@ngrx/component-store";
-import { debounceTime, map, switchMap, tap } from "rxjs";
+import { debounceTime, map, pluck, switchMap, tap } from "rxjs";
 import { Pokemon } from "src/app/models/pokemon";
 import { BackendService } from "src/app/services/backend.service";
 
@@ -29,7 +30,7 @@ export class ListStore extends ComponentStore<ListState> {
 
   query$ = this.select((s) => s.query);
 
-  constructor(private backend: BackendService) {
+  constructor(private backend: BackendService, private route: ActivatedRoute) {
     super({
       isLoading: false,
       page: 1,
@@ -41,6 +42,7 @@ export class ListStore extends ComponentStore<ListState> {
       query: "",
     });
     this.fetchEffect(this.paniator$);
+    this.pageEffect(this.route.queryParams.pipe(pluck("page")));
     // this.logEffect(this.vm$);
   }
 
@@ -60,6 +62,7 @@ export class ListStore extends ComponentStore<ListState> {
     paginator$.pipe(
       debounceTime(500),
       tap(() => {
+        console.log("loading pokemon");
         this.patchState({ isLoading: true });
       }),
       switchMap(({ limit, offset }) => {
@@ -106,6 +109,16 @@ export class ListStore extends ComponentStore<ListState> {
             poke.name.toLowerCase().includes(query.toLowerCase())
           ),
         }));
+      })
+    )
+  );
+
+  pageEffect = this.effect<string>((page$) =>
+    page$.pipe(
+      map((page) => Number(page) || 1),
+      tap((page) => {
+        // console.log(page);
+        this.setPagination({ page: page, limit: 20, offset: (page - 1) * 20 });
       })
     )
   );

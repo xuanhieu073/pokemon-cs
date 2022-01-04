@@ -13,23 +13,21 @@ import { AuthStore } from "src/app/store/auth.store";
       <!-- <h2>Pokemon angular</h2> -->
       <label
         for="toggle"
-        class="w-12 h-7 bg-gray-300 dark:bg-slate-800 border border-gray-400 dark:border-gray-600 rounded-full flex items-center px-[1px] shrink-0"
+        class="w-12 h-7 bg-gray-300 dark:bg-slate-800 border border-gray-400 dark:border-gray-600 rounded-full flex items-center px-[1px] shrink-0 cursor-pointer"
       >
-        <ng-container>
-          <div
-            [class.translate-x-5]="toggleDarkMode.value"
-            class="h-6 w-6 rounded-full bg-white dark:bg-slate-500 border dark:border-slate-600 transition-transform flex items-center justify-center"
-          >
-            <span
-              [class]="
-                toggleDarkMode.value
-                  ? ['ion-ios-moon', 'text-yellow-400']
-                  : ['ion-ios-sunny', 'text-yellow-600']
-              "
-              class="text-lg  ion"
-            ></span>
-          </div>
-        </ng-container>
+        <div
+          [class.translate-x-5]="toggleDarkMode.value"
+          class="h-6 w-6 rounded-full bg-white dark:bg-slate-500 border dark:border-slate-600 transition-transform flex items-center justify-center"
+        >
+          <span
+            [class]="
+              toggleDarkMode.value
+                ? ['ion-ios-moon', 'text-yellow-400']
+                : ['ion-ios-sunny', 'text-yellow-600']
+            "
+            class="text-lg  ion"
+          ></span>
+        </div>
         <input
           type="checkbox"
           id="toggle"

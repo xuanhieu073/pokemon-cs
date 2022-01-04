@@ -14,6 +14,7 @@ export enum colors {
 }
 
 export interface DetailsState {
+  fromPage: number;
   isLoading: boolean;
   id: string;
   pokemon: SimplifiedPokemon;
@@ -31,9 +32,25 @@ export class DetailsStore extends ComponentStore<DetailsState> {
     private router: Router,
     private auth: AuthStore
   ) {
-    super({ isLoading: false, id: "0", pokemon: null, color: colors.default });
+    super({
+      fromPage: 1,
+      isLoading: false,
+      id: "0",
+      pokemon: null,
+      color: colors.default,
+    });
+    this.initalizeEffect();
     this.fetchPokemonEffect(this.route.params.pipe(pluck("id")));
   }
+
+  initalizeEffect = this.effect((trigger$) =>
+    trigger$.pipe(
+      withLatestFrom(this.route.queryParams.pipe(pluck("page"))),
+      tap(([, page]) => {
+        this.patchState({ fromPage: page });
+      })
+    )
+  );
 
   fetchPokemonEffect = this.effect<string>((id$) =>
     id$.pipe(

@@ -23,7 +23,8 @@ import { DetailsStore } from "./detail.store";
         <section [class.animate-pulse]="vm.isLoading" class="z-10">
           <header class="flex items-center gap-4 p-5">
             <img
-              routerLink="/pokemons"
+              [routerLink]="['/pokemons']"
+              [queryParams]="{ page: vm.fromPage }"
               src="/assets/images/back-icon.png"
               class="cursor-pointer"
             />

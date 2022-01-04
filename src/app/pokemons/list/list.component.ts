@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { Router } from "@angular/router";
 import { debounceTime, tap } from "rxjs";
 import { ListStore } from "./list.store";
 
@@ -41,7 +42,7 @@ import { ListStore } from "./list.store";
               (click)="setPaginator(i)"
               class="px-2 py-[2px] dark:text-gray-200"
             >
-              {{ i }}
+              {{ i + 1 }}
             </button>
           </li>
         </ng-container>
@@ -65,8 +66,11 @@ import { ListStore } from "./list.store";
           [formControl]="query"
         />
       </div>
-      <div class="loading-block" *ngIf="vm.isLoading; else pokemonContents">
-        <p class="text-gray-800 dark:text-gray-200">loading...</p>
+      <div class="py-10" *ngIf="vm.isLoading; else pokemonContents">
+        <div
+          class="h-10 w-10 mx-auto rounded-full border-4 border-blue-400 border-r-transparent animate-spin mb-10"
+        ></div>
+        <p class="text-gray-800 dark:text-gray-200 text-center">loading...</p>
       </div>
       <ng-template #pokemonContents>
         <!-- <ul class="pokemon-list" *ngIf="vm.pokemons.length">
@@ -84,8 +88,7 @@ import { ListStore } from "./list.store";
             >
             <div class="w-full h-full flex justify-center px-2 py-1">
               <img
-                error="https://mir-s3-cdn-cf.behance.net/project_modules/disp/13ff4e19399069.562d9bb4f1a42.png"
-                src="https://s2.coinmarketcap.com/static/img/coins/200x200/8303.png"
+                src="/assets/images/poke-ball.png"
                 [srcset]="pokemon.image"
                 alt="poke-image"
                 class="object-cover"
@@ -93,6 +96,7 @@ import { ListStore } from "./list.store";
             </div>
             <a
               [routerLink]="[pokemon.id]"
+              queryParamsHandling="preserve"
               class="bg-green-500 dark:bg-green-900 text-center text-white px-2 py-1"
               >{{ pokemon.name }}</a
             >
@@ -110,26 +114,13 @@ export class ListComponent implements OnInit {
   vm$ = this.listStore.vm$;
   query = new FormControl();
 
-  constructor(private listStore: ListStore) {
+  constructor(private listStore: ListStore, private router: Router) {
     this.listStore.queryEffect(this.query.valueChanges.pipe(debounceTime(500)));
   }
 
-  ngOnInit(): void {
-    // this.query.valueChanges
-    //   .pipe(
-    //     debounceTime(500),
-    //     tap((query) => {
-    //       this.listStore.setQuery(query);
-    //     })
-    //   )
-    //   .subscribe();
-  }
+  ngOnInit(): void {}
 
   setPaginator(page: number) {
-    this.listStore.setPagination({
-      page: page + 1,
-      limit: 20,
-      offset: page * 20,
-    });
+    this.router.navigate(["/pokemons"], { queryParams: { page: page + 1 } });
   }
 }
