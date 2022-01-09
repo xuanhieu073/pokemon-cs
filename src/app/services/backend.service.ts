@@ -6,6 +6,7 @@ import {
   PaginatedPokemon,
   PokemonDetail,
   SimplifiedPokemon,
+  SpeciesDeails,
 } from "../models/pokemon";
 
 @Injectable({ providedIn: "root" })
@@ -42,11 +43,21 @@ export class BackendService {
     );
   }
 
+  getPokemonSpecies(id: string): Observable<SpeciesDeails> {
+    return this.httpClient
+      .get<SpeciesDeails>(
+        `${this.baseUrl.replace("pokemon", "pokemon-species")}/${id}`
+      )
+      .pipe(delay(1000));
+  }
+
   private static getSimplifiedPokemon(
     pokemon: PokemonDetail | null
   ): SimplifiedPokemon {
     return {
       name: pokemon?.name || "",
+      height: pokemon?.height,
+      weight: pokemon?.weight,
       ability:
         pokemon?.abilities?.find((ability) => !ability.is_hidden)?.ability
           ?.name || "",

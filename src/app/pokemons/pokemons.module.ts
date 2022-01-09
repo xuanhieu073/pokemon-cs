@@ -4,6 +4,7 @@ import { ListComponent } from "./list/list.component";
 import { DetailsComponent } from "./details/details.component";
 import { RouterModule, Routes } from "@angular/router";
 import { ReactiveFormsModule } from "@angular/forms";
+import { OneLineNormalTextPipe } from './details/one-line-normal-text.pipe';
 
 const routes: Routes = [
   { path: "", component: ListComponent },
@@ -11,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ListComponent, DetailsComponent],
+  declarations: [ListComponent, DetailsComponent, OneLineNormalTextPipe],
   imports: [CommonModule, ReactiveFormsModule, RouterModule.forChild(routes)],
 })
 export class PokemonsModule {}

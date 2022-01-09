@@ -13,6 +13,8 @@ export interface Pokemon {
 
 export interface SimplifiedPokemon {
   name: string;
+  height: number;
+  weight: number;
   ability: string;
   hiddenAbility: string;
   image: string;
@@ -176,4 +178,11 @@ export interface Stat {
 export interface Type {
   slot: number;
   type: Species;
+}
+
+export interface FlavorText {
+  flavor_text: string;
+}
+export interface SpeciesDeails {
+  flavor_text_entries: FlavorText[];
 }

@@ -13,7 +13,8 @@ import { DetailsStore } from "./detail.store";
   template: `
     <ng-container *ngIf="vm$ | async as vm">
       <div
-        class="relative flex flex-col w-[360px] h-[640px] mx-auto bg-green-500 rounded-xl p-1"
+        [class]="vm.color.background"
+        class="relative flex flex-col w-[360px] h-[640px] mx-auto rounded-xl p-1"
       >
         <img
           [class.animate-ping]="vm.isLoading"
@@ -44,7 +45,7 @@ import { DetailsStore } from "./detail.store";
             <!-- [src]="vm.pokemon.image" -->
             <!-- [srcset]="vm.pokemon.image + ' 2x'" -->
             <img
-              src="/assets/images/Pokeball.png"
+              src="/assets/images/poke-ball.png"
               [srcset]="vm.pokemon?.image"
               alt=""
               class="w-[200px] h-[200px] mx-auto mb-[-70px] object-cover"
@@ -60,23 +61,28 @@ import { DetailsStore } from "./detail.store";
           >
             <div class="flex gap-4">
               <span
-                class="text-xs font-bold text-white bg-green-600 px-2 py-[2px] rounded-full"
+                [class]="vm.color.background"
+                class="text-xs font-bold text-white px-2 py-[2px] rounded-full"
                 >{{ vm.pokemon?.type }}</span
               >
             </div>
-            <p class="text-orange-400 font-bold">About</p>
+            <p [class]="vm.color.text" class="font-bold">About</p>
             <div class="w-full flex items-center justify-between">
               <div class="text-center py-2 px-6">
                 <div class="flex items-center gap-2 mb-2">
                   <img src="/assets/images/scale.png" alt="" />
-                  <p class="text-[10px]">8,5kg</p>
+                  <p class="text-[10px]">
+                    {{ vm.pokemon?.weight / 10 | number: "0.1-1" }}kg
+                  </p>
                 </div>
                 <p class="text-[8px]">Weight</p>
               </div>
               <div class="text-center py-2 px-6 border-x">
                 <div class="flex items-center gap-2 mb-2">
                   <img src="/assets/images/ruler.png" alt="" />
-                  <p class="text-[10px]">0,6m</p>
+                  <p class="text-[10px]">
+                    {{ vm.pokemon?.height / 10 | number: "0.1-1" }}m
+                  </p>
                 </div>
                 <p class="text-[8px]">Height</p>
               </div>
@@ -88,31 +94,39 @@ import { DetailsStore } from "./detail.store";
                 <p class="text-[8px]">Moves</p>
               </div>
             </div>
-            <a
+            <!-- <a
               [href]="vm.pokemon?.image"
               target="_blank"
               class="text-[10px] w-full line-clamp-2"
             >
               {{ vm.pokemon?.image }}
-            </a>
-            <p class="font-bold">Base stats</p>
+            </a> -->
+            <p class="text-[10px] w-full line-clamp-2 whitespace-pre-line">
+              {{
+                vm.species?.flavor_text_entries[0]?.flavor_text
+                  | oneLineNormalText
+              }}
+            </p>
+            <p [class]="vm.color.text" class="font-bold">Base stats</p>
             <div class="w-full flex gap-2">
-              <ul class="text-[10px] font-bold text-orange-400">
+              <ul [class]="vm.color.text" class="text-[10px] font-bold">
                 <li *ngFor="let stat of vm.pokemon?.stats">
                   <p class="text-right h-4 uppercase">{{ stat.stat.name }}</p>
                 </li>
               </ul>
               <ul class="flex-1">
                 <li
-                  class=" flex items-center gap-2 text-[10px] font-bold text-orange-400"
+                  [class]="vm.color.text"
+                  class=" flex items-center gap-2 text-[10px] font-bold"
                   *ngFor="let stat of vm.pokemon?.stats"
                 >
                   <div class="w-[1px] h-4 bg-gray-300"></div>
                   <p>{{ (stat.base_stat + "").padStart(3, "0") }}</p>
                   <div class="flex-1 h-1 bg-gray-200">
                     <div
+                      [class]="vm.color.background"
                       [style.width.%]="(stat.base_stat / 255) * 100"
-                      class="h-full bg-orange-400 w-1/"
+                      class="h-full w-1/"
                     ></div>
                   </div>
                 </li>
@@ -120,13 +134,15 @@ import { DetailsStore } from "./detail.store";
             </div>
             <div class="w-full flex justify-between">
               <button
-                class="px-4 py-2 rounded-full border-2 border-green-500 bg-green-500 text-white text-sm"
+                [class]="vm.color.primary"
+                class="px-4 py-2 rounded-full border-2 border-current text-white text-sm"
                 (click)="doLike()"
               >
                 Like
               </button>
               <button
-                class="px-4 py-2 rounded-full border-2 border-green-500 text-sm"
+                [class]="vm.color.primary[1]"
+                class="px-4 py-2 rounded-full border-2 text-sm"
                 (click)="doDislike()"
               >
                 Dislike
@@ -153,7 +169,6 @@ export class DetailsComponent implements OnInit {
   constructor(private detailsStore: DetailsStore) {}
 
   ngOnInit(): void {}
-
   goNext() {
     this.detailsStore.nextIdEffect();
   }
