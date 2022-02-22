@@ -4,6 +4,10 @@ poke-dex using poke-api, you can see a demo of this project at https://pokemon-c
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
+## Target
+
+this project for learning purpose. thank Chau Tran from Angular Viet Nam group for lead the way. the tutorial is here: https://www.youtube.com/watch?v=HZxDFGB57jk
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
