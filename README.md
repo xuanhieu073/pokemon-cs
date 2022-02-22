@@ -6,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Target
 
-this project for learning purpose. thank Chau Tran from Angular Viet Nam group for lead the way. the tutorial is here: https://www.youtube.com/watch?v=HZxDFGB57jk
+This project for learning purpose. Thank Chau Tran from Angular Viet Nam group for lead the way. The tutorial is here: https://www.youtube.com/watch?v=HZxDFGB57jk
 
 ## Development server
 
