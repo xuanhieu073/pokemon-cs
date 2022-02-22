@@ -1,5 +1,6 @@
 # PokemonCs
 
+poke-dex using poke-api, you can see a demo of this project at https://pokemon-cs.netlify.app/
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
 
 ## Development server
